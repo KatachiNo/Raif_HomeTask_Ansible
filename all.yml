@@ -1,0 +1,4 @@
+- name: Обновление
+  hosts: servers
+  roles:
+   - updateServer

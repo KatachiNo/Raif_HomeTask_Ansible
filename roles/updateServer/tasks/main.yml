@@ -1,0 +1,28 @@
+---
+- name: Обновление CentOs 8.2
+  become: true
+  block:
+    - name: Обновление зеркал ч1
+      shell: |
+        sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+
+    - name: Обновление зеркал ч2
+      shell: |
+        sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+
+    - name: Обновляем систему
+      yum:
+        name: '*'
+        state: latest
+        exclude: vim
+      register: result
+
+    - name: Перезапускаем если поменялось что-то
+      reboot:
+      when: result.changed
+
+    - name: Удаление старых ядер
+      shell: |
+        dnf remove --oldinstallonly --setopt installonly_limit=2 kernel -y
+      ignore_errors: yes
+

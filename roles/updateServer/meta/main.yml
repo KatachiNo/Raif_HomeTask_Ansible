@@ -1,0 +1,10 @@
+galaxy_info:
+  role_name: updateServer
+  description: Установка обновления на CentOs 8.2
+  author: Platonov Vladislav
+  licence: GPL3
+  min_ansible_version: 2.9
+  platforms:
+    - centOs:
+        versions:
+          - 8.2
